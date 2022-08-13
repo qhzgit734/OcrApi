@@ -17,11 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(736, 584)
+        MainWindow.resize(542, 584)
         self.action = QAction(MainWindow)
         self.action.setObjectName(u"action")
         self.actionhelp = QAction(MainWindow)
         self.actionhelp.setObjectName(u"actionhelp")
+        self.actionAdvanced_settings = QAction(MainWindow)
+        self.actionAdvanced_settings.setObjectName(u"actionAdvanced_settings")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -80,6 +82,7 @@ class Ui_MainWindow(object):
 
         self.pushButton = QPushButton(self.frame_2)
         self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(300, 0))
 
         self.horizontalLayout_2.addWidget(self.pushButton)
 
@@ -93,17 +96,21 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 736, 26))
+        self.menubar.setGeometry(QRect(0, 0, 542, 26))
         self.menu = QMenu(self.menubar)
         self.menu.setObjectName(u"menu")
+        self.menu_2 = QMenu(self.menubar)
+        self.menu_2.setObjectName(u"menu_2")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.menubar.addAction(self.menu_2.menuAction())
         self.menubar.addAction(self.menu.menuAction())
         self.menu.addAction(self.action)
         self.menu.addAction(self.actionhelp)
+        self.menu_2.addAction(self.actionAdvanced_settings)
 
         self.retranslateUi(MainWindow)
 
@@ -111,9 +118,10 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"OCR\u6587\u672c\u8bc6\u522b", None))
-        self.action.setText(QCoreApplication.translate("MainWindow", u"\u7248\u672c", None))
-        self.actionhelp.setText(QCoreApplication.translate("MainWindow", u"HELP", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"ocr_net", None))
+        self.action.setText(QCoreApplication.translate("MainWindow", u"version", None))
+        self.actionhelp.setText(QCoreApplication.translate("MainWindow", u"help", None))
+        self.actionAdvanced_settings.setText(QCoreApplication.translate("MainWindow", u"Advanced settings", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u8bc6\u522b\u6a21\u5f0f\uff1a", None))
         self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u901a\u7528\u6587\u5b57\u8bc6\u522b\uff08\u6807\u51c6\u7248\uff09", None))
         self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u901a\u7528\u6587\u5b57\u8bc6\u522b\uff08\u9ad8\u7cbe\u5ea6\u7248\uff09", None))
@@ -124,5 +132,6 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58excel", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u8bc6\u522b", None))
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u5173\u4e8e", None))
+        self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e", None))
     # retranslateUi
 
