@@ -4,7 +4,7 @@ import sys
 import time
 import requests
 import re
-import linecache
+import configparser
 import os.path
 # 导入python库
 from PySide2.QtCore import QBuffer, Signal, QPoint, QRect, QUrl, QCoreApplication
@@ -237,13 +237,21 @@ class Creat_win2(QDialog):
         QDesktopServices.openUrl(QUrl("https://login.bce.baidu.com/"))
     
     def ent_get(self):
+        global client
         APP_ID_str = self.win_ui.lineEdit_app_id.text()
         API_KEY_str = self.win_ui.lineEdit_api_key.text()
         SECRET_KEY_str = self.win_ui.lineEdit_secret_key.text()
 
-        with open('config.txt', 'w') as conf:
-            conf.write(APP_ID_str + '\n' + API_KEY_str + '\n' + SECRET_KEY_str)
-        QMessageBox.information(self.win, '提示', '设置完成，重启程序生效！')
+        with open('config.ini', 'w') as f:
+            cf.set('aip_key_id', 'APP_ID_str', APP_ID_str)
+            cf.set('aip_key_id', 'API_KEY_str', API_KEY_str)
+            cf.set('aip_key_id', 'SECRET_KEY_str', SECRET_KEY_str)
+            cf.write(f)
+        APP_ID = APP_ID_str
+        API_KEY = API_KEY_str
+        SECRET_KEY = SECRET_KEY_str
+        client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
+        QMessageBox.information(self.win, '提示', '设置完成！')
 if __name__ == "__main__":
     # 设置全局变量
     tmp_res = []
@@ -253,16 +261,21 @@ if __name__ == "__main__":
     API_KEY_str = str()
     SECRET_KEY_str = str()
     # 百度API
-    if os.path.isfile('config.txt'):
-        with open('config.txt', 'r') as conf:
-            APP_ID_str = linecache.getline('config.txt', 1)
-            API_KEY_str= linecache.getline('config.txt', 2)
-            SECRET_KEY_str = linecache.getline('config.txt', 3)
+    cf = configparser.ConfigParser()
+    
+    if os.path.isfile('config.ini'):
+            cf.read('config.ini', encoding="utf-8")
     else:
-        with open('config.txt', 'w') as conf:
-            APP_ID_str = linecache.getline('config.txt', 1)
-            API_KEY_str= linecache.getline('config.txt', 2)
-            SECRET_KEY_str = linecache.getline('config.txt', 3)
+        with open('config.ini', 'w') as f:
+                cf.add_section('aip_key_id') # 添加sections值
+                cf.set('aip_key_id', 'APP_ID_str', '') # 在指定的sections中添加键值对
+                cf.set('aip_key_id', 'API_KEY_str', '')
+                cf.set('aip_key_id', 'SECRET_KEY_str', '')
+                cf.write(f)
+                
+    APP_ID_str = cf.get('aip_key_id', 'APP_ID_str')
+    API_KEY_str = cf.get('aip_key_id', 'API_KEY_str')
+    SECRET_KEY_str = cf.get('aip_key_id', 'SECRET_KEY_str')
     APP_ID = APP_ID_str
     API_KEY = API_KEY_str
     SECRET_KEY = SECRET_KEY_str
@@ -280,11 +293,4 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon('logo.ico'))
     # 进入程序的主循环，并通过exit函数确保主循环安全结束
     sys.exit(app.exec_())
-
-'''
-pyinstaller -F -w ocr_net.py -i 'logo.ico'
-conda list -e > requirements.txt
-conda install --yes --file requirements.txt
-pip freeze > requirements.txt 可能会丢失依赖包的版本号
-pip install -r requirements.txt
-'''
+    # pyinstaller -F -w ocr_net.py -i 'logo.ico'
