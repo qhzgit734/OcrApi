@@ -252,6 +252,7 @@ class Creat_win2(QDialog):
         SECRET_KEY = SECRET_KEY_str
         client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
         QMessageBox.information(self.win, '提示', '设置完成！')
+
 if __name__ == "__main__":
     # 设置全局变量
     tmp_res = []
@@ -287,7 +288,6 @@ if __name__ == "__main__":
     dialog_v = Creat_win1(window_v)
     dialog_h = Creat_win1(window_h)
     dialog_set = Creat_win2(window_set)
-
     # 窗口显示
     mainwindow.root.show()
     app.setWindowIcon(QIcon('logo.ico'))
